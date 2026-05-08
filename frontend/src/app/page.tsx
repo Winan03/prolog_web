@@ -10,6 +10,10 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  // Show/hide password toggles
+  const [showLoginPwd, setShowLoginPwd] = useState(false);
+  const [showRegPwd, setShowRegPwd] = useState(false);
+
   // Login form
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -88,7 +92,32 @@ export default function LoginPage() {
             </div>
             <div className="auth-field">
               <label className="auth-label">Contraseña</label>
-              <input className="input" type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" required />
+              <div style={{ position: "relative" }}>
+                <input
+                  className="input"
+                  type={showLoginPwd ? "text" : "password"}
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  required
+                  autoComplete="current-password"
+                  style={{ paddingRight: 40 }}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowLoginPwd(p => !p)}
+                  style={{
+                    position: "absolute", right: 10, top: "50%",
+                    transform: "translateY(-50%)",
+                    background: "none", border: "none",
+                    cursor: "pointer", color: "var(--text-muted)",
+                    fontSize: 16, lineHeight: 1, padding: 2,
+                  }}
+                  title={showLoginPwd ? "Ocultar contraseña" : "Mostrar contraseña"}
+                >
+                  {showLoginPwd ? "🙈" : "👁"}
+                </button>
+              </div>
             </div>
             {error && <p className="auth-error">⚠ {error}</p>}
             <button className="btn btn-primary" type="submit" disabled={loading} style={{ width: "100%", justifyContent: "center", marginTop: 20, padding: "10px" }}>
@@ -107,7 +136,33 @@ export default function LoginPage() {
             </div>
             <div className="auth-field">
               <label className="auth-label">Contraseña (mín. 8 caracteres)</label>
-              <input className="input" type="password" value={regPassword} onChange={e => setRegPassword(e.target.value)} placeholder="••••••••" required minLength={8} />
+              <div style={{ position: "relative" }}>
+                <input
+                  className="input"
+                  type={showRegPwd ? "text" : "password"}
+                  value={regPassword}
+                  onChange={e => setRegPassword(e.target.value)}
+                  placeholder="••••••••"
+                  required
+                  minLength={8}
+                  autoComplete="new-password"
+                  style={{ paddingRight: 40 }}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowRegPwd(p => !p)}
+                  style={{
+                    position: "absolute", right: 10, top: "50%",
+                    transform: "translateY(-50%)",
+                    background: "none", border: "none",
+                    cursor: "pointer", color: "var(--text-muted)",
+                    fontSize: 16, lineHeight: 1, padding: 2,
+                  }}
+                  title={showRegPwd ? "Ocultar contraseña" : "Mostrar contraseña"}
+                >
+                  {showRegPwd ? "🙈" : "👁"}
+                </button>
+              </div>
             </div>
             <div className="auth-field">
               <label className="auth-label">Código de invitación</label>
