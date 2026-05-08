@@ -399,13 +399,33 @@ h3 { font-size: 1.1rem; font-weight: 600; }
   letter-spacing: 0.06em;
 }
 .query-panel-resize {
-  height: 4px;
+  height: 6px;
   background: var(--border);
   cursor: ns-resize;
-  transition: background 0.15s;
   flex-shrink: 0;
+  position: relative;
+  transition: background 0.15s;
 }
-.query-panel-resize:hover { background: var(--accent); }
+.query-panel-resize::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 32px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--text-muted);
+  transition: background 0.15s;
+}
+.query-panel-resize:hover,
+.query-panel-resize:active {
+  background: var(--accent);
+}
+.query-panel-resize:hover::after,
+.query-panel-resize:active::after {
+  background: var(--accent);
+}
 .query-input-row {
   display: flex;
   align-items: center;

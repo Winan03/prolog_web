@@ -60,6 +60,12 @@ export default function EditorPage() {
   const [saveMsg, setSaveMsg] = useState("");
   const autoSaveTimer = useRef<ReturnType<typeof setInterval> | null>(null);
 
+  // Panel resize state
+  const [panelHeight, setPanelHeight] = useState(260);
+  const isResizing = useRef(false);
+  const resizeStartY = useRef(0);
+  const resizeStartH = useRef(260);
+
   // ── Auth guard ──
   useEffect(() => {
     const u = getAuthUser();
@@ -221,6 +227,35 @@ export default function EditorPage() {
     return () => window.removeEventListener("keydown", handler);
   }, [code, query, activeFile]);
 
+  // Panel resize handlers
+  function onResizeStart(e: React.MouseEvent) {
+    isResizing.current = true;
+    resizeStartY.current = e.clientY;
+    resizeStartH.current = panelHeight;
+    document.body.style.cursor = "ns-resize";
+    document.body.style.userSelect = "none";
+  }
+  useEffect(() => {
+    function onMouseMove(e: MouseEvent) {
+      if (!isResizing.current) return;
+      const delta = resizeStartY.current - e.clientY; // drag up = bigger panel
+      const next = Math.max(120, Math.min(600, resizeStartH.current + delta));
+      setPanelHeight(next);
+    }
+    function onMouseUp() {
+      if (!isResizing.current) return;
+      isResizing.current = false;
+      document.body.style.cursor = "";
+      document.body.style.userSelect = "";
+    }
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mouseup", onMouseUp);
+    return () => {
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseup", onMouseUp);
+    };
+  }, []);
+
   return (
     <div className="editor-layout">
       {/* ── TOPBAR ── */}
@@ -300,8 +335,15 @@ export default function EditorPage() {
           <MonacoEditor value={code} onChange={handleCodeChange} />
         </div>
 
+        {/* Drag handle */}
+        <div
+          className="query-panel-resize"
+          onMouseDown={onResizeStart}
+          title="Arrastra para redimensionar"
+        />
+
         {/* Query Panel */}
-        <div className="query-panel">
+        <div className="query-panel" style={{ height: panelHeight }}>
           <div className="query-panel-header">
             🔍 Consulta Prolog
             <span style={{ marginLeft: "auto", fontWeight: 400, textTransform: "none", letterSpacing: 0, color: "var(--text-muted)" }}>

@@ -279,7 +279,7 @@ async def share_file(file_id: str, user: dict = Depends(get_current_user)):
     token = file.get("share_token") or secrets.token_urlsafe(16)
     db.table("files").update({"share_token": token, "share_enabled": True}).eq("id", file_id).execute()
 
-    frontend_url = os.environ.get("FRONTEND_URL", "http://localhost:3000")
+    frontend_url = os.environ.get("FRONTEND_URL", "http://localhost:3000").split(",")[0].strip()
     return ShareResponse(share_token=token, share_url=f"{frontend_url}/collab/{token}", share_enabled=True)
 
 
