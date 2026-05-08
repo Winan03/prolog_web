@@ -57,7 +57,7 @@ function configurePrologLanguage(monaco: any) {
     },
   });
 
-  // Theme
+  // Dark theme
   monaco.editor.defineTheme("prolog-dark", {
     base: "vs-dark",
     inherit: true,
@@ -81,6 +81,33 @@ function configurePrologLanguage(monaco: any) {
       "editor.lineHighlightBackground": "#161b22",
       "editorCursor.foreground":     "#388bfd",
       "editor.inactiveSelectionBackground": "#1c2128",
+    },
+  });
+
+  // Light theme
+  monaco.editor.defineTheme("prolog-light", {
+    base: "vs",
+    inherit: true,
+    rules: [
+      { token: "comment",          foreground: "6a737d", fontStyle: "italic" },
+      { token: "keyword",          foreground: "d73a49" },
+      { token: "keyword.operator", foreground: "d73a49" },
+      { token: "operator",         foreground: "24292e" },
+      { token: "variable",         foreground: "005cc5" },
+      { token: "identifier",       foreground: "6f42c1" },
+      { token: "number",           foreground: "005cc5" },
+      { token: "string",           foreground: "032f62" },
+      { token: "delimiter",        foreground: "24292e" },
+    ],
+    colors: {
+      "editor.background":           "#f6f8fa",
+      "editor.foreground":           "#24292e",
+      "editorLineNumber.foreground": "#8c959f",
+      "editorLineNumber.activeForeground": "#57606a",
+      "editor.selectionBackground":  "#c8e1ff",
+      "editor.lineHighlightBackground": "#eaf2ff",
+      "editorCursor.foreground":     "#0969da",
+      "editor.inactiveSelectionBackground": "#e1e4e8",
     },
   });
 
@@ -125,14 +152,15 @@ interface Props {
   value: string;
   onChange: (value: string | undefined) => void;
   readOnly?: boolean;
+  monacoTheme?: "prolog-dark" | "prolog-light";
 }
 
-export default function PrologEditor({ value, onChange, readOnly = false }: Props) {
+export default function PrologEditor({ value, onChange, readOnly = false, monacoTheme = "prolog-dark" }: Props) {
   return (
     <Editor
       height="100%"
       language="prolog"
-      theme="prolog-dark"
+      theme={monacoTheme}
       value={value}
       onChange={onChange}
       options={{

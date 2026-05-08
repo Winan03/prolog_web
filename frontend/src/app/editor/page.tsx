@@ -342,7 +342,11 @@ export default function EditorPage() {
       {/* ── EDITOR + QUERY PANEL ── */}
       <main className="editor-main">
         <div className="editor-wrapper">
-          <MonacoEditor value={code} onChange={handleCodeChange} />
+          <MonacoEditor
+            value={code}
+            onChange={handleCodeChange}
+            monacoTheme={theme === "light" ? "prolog-light" : "prolog-dark"}
+          />
         </div>
 
         {/* Drag handle */}

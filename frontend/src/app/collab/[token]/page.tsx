@@ -217,7 +217,11 @@ export default function CollabPage() {
       {/* No sidebar — full width editor */}
       <main className="editor-main" style={{ gridColumn: "1 / -1" }}>
         <div className="editor-wrapper">
-          <MonacoEditor value={code} onChange={handleCodeChange} />
+          <MonacoEditor
+            value={code}
+            onChange={handleCodeChange}
+            monacoTheme={theme === "light" ? "prolog-light" : "prolog-dark"}
+          />
         </div>
 
         {/* Drag handle */}
