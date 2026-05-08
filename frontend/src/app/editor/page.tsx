@@ -31,7 +31,7 @@ hermano(X, Y) :-
 
 export default function EditorPage() {
   const router = useRouter();
-  const user = getAuthUser();
+  const [user, setUser] = useState<ReturnType<typeof getAuthUser>>(null);
 
   // File state
   const [files, setFiles] = useState<FileItem[]>([]);
@@ -62,7 +62,9 @@ export default function EditorPage() {
 
   // ── Auth guard ──
   useEffect(() => {
-    if (!user) { router.replace("/"); return; }
+    const u = getAuthUser();
+    if (!u) { router.replace("/"); return; }
+    setUser(u);
     loadFiles();
     // Warn before unload if dirty
     const handler = (e: BeforeUnloadEvent) => {
