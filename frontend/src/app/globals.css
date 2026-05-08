@@ -8,7 +8,7 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  /* Colors */
+  /* Colors — Dark mode (default) */
   --bg-deep:      #0d1117;
   --bg-surface:   #161b22;
   --bg-card:      #1c2128;
@@ -38,6 +38,32 @@
   --radius:       8px;
   --radius-lg:    12px;
 }
+
+/* ── Light Mode ── */
+[data-theme="light"] {
+  --bg-deep:      #f6f8fa;
+  --bg-surface:   #ffffff;
+  --bg-card:      #ffffff;
+  --bg-hover:     #f0f2f5;
+  --bg-active:    #e6ebf1;
+
+  --border:       #d0d7de;
+  --border-focus: #0969da;
+
+  --text-primary:   #1f2328;
+  --text-secondary: #57606a;
+  --text-muted:     #8c959f;
+
+  --accent:       #0969da;
+  --accent-hover: #0a7fcb;
+  --accent-glow:  rgba(9, 105, 218, 0.12);
+
+  --success:      #1a7f37;
+  --warning:      #9a6700;
+  --error:        #cf222e;
+  --prolog-purple:#8250df;
+}
+
 
 html, body {
   height: 100%;

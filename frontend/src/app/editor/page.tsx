@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { api, createCollabSocket } from "@/lib/api";
 import { getAuthUser, logout } from "@/lib/auth";
+import { useTheme } from "@/lib/useTheme";
 
 // Monaco must be loaded client-side only
 const MonacoEditor = dynamic(() => import("@/components/PrologEditor"), { ssr: false });
@@ -32,6 +33,7 @@ hermano(X, Y) :-
 export default function EditorPage() {
   const router = useRouter();
   const [user, setUser] = useState<ReturnType<typeof getAuthUser>>(null);
+  const { theme, toggle: toggleTheme } = useTheme();
 
   // File state
   const [files, setFiles] = useState<FileItem[]>([]);
@@ -273,6 +275,14 @@ export default function EditorPage() {
         </div>
         <div className="topbar-actions">
           {saveMsg && <span style={{ fontSize: 12, color: "var(--success)" }}>{saveMsg}</span>}
+          <button
+            className="btn btn-ghost btn-sm"
+            onClick={toggleTheme}
+            title={theme === "dark" ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
+            style={{ fontSize: 16, padding: "4px 8px" }}
+          >
+            {theme === "dark" ? "☀️" : "🌙"}
+          </button>
           {onlineUsers.length > 1 && (
             <div className="online-indicator">
               <div className="online-dot" />

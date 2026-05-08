@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { api, createCollabSocket } from "@/lib/api";
 import { getAuthUser, logout } from "@/lib/auth";
+import { useTheme } from "@/lib/useTheme";
 
 const MonacoEditor = dynamic(() => import("@/components/PrologEditor"), { ssr: false });
 
@@ -13,6 +14,7 @@ export default function CollabPage() {
   const router = useRouter();
   const params = useParams();
   const token = params.token as string;
+  const { theme, toggle: toggleTheme } = useTheme();
 
   const [user, setUser] = useState<ReturnType<typeof getAuthUser>>(null);
   const [file, setFile] = useState<{ id: string; name: string; content: string; owner_id: string } | null>(null);
@@ -198,6 +200,14 @@ export default function CollabPage() {
               {onlineUsers.filter(u => u !== user?.username).join(", ")} editando
             </div>
           )}
+          <button
+            className="btn btn-ghost btn-sm"
+            onClick={toggleTheme}
+            title={theme === "dark" ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
+            style={{ fontSize: 16, padding: "4px 8px" }}
+          >
+            {theme === "dark" ? "☀️" : "🌙"}
+          </button>
           <button className="btn btn-primary btn-sm" onClick={handleSave}>💾 Guardar</button>
           <span className="topbar-user">@{user?.username}</span>
           <button className="btn btn-ghost btn-sm" onClick={() => { logout(); router.push("/"); }}>Salir</button>
